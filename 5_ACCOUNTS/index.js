@@ -22,6 +22,7 @@ function operation() {
                     'Consultar Saldo',
                     'Depositar',
                     'Sacar',
+                    'Trasnferir',
                     'Sair',
                 ],
             },
@@ -37,6 +38,8 @@ function operation() {
                 getAccountabalance()
             } else if (action === 'Sacar') {
                 withdraw()
+            } else if (action == 'Trasnferir') {
+                Transfer()
             } else if (action === 'Sair') {
                 console.log(chalk.bgBlue.black('Obrigado por usar o Accounts!'))
                 process.exit()
@@ -195,6 +198,42 @@ function getAccountabalance() {
     })
         .catch(err => console.log(err))
 }
+
+// // Função Transferir
+function Transfer() {
+
+
+    // Verificar conta
+    inquirer.prompt([
+        {
+            name: 'accountName',
+            message: 'Qual o nome da conta'
+        }
+    ]).then((answer) => {
+
+        const accountName = answer['accountName']
+
+        if (!checkAccount(accountName)) {
+            return Trasnfer()
+        }
+
+        // Trasnferir
+        inquirer.prompt([
+            {
+                name: 'amount',
+                message: 'Quanto voce deseja trasnferir'
+            }
+        ]).then((answer) => {
+            const amount = answer['amount']
+
+            removeAmount(accountName, amount)
+        })
+
+            .catch(err => console.log(err))
+    })
+
+}
+
 
 // Sacar o valor da conta
 function withdraw() {
